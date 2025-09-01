@@ -50,7 +50,7 @@ pipeline {
                 mail to: 'silverkhaddy@gmail.com',
                     subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
                     body: "Your build completed, please check: ${env.BUILD_URL}"
-                    slackSend channel: '#test', color: 'green', message: "The pipeline ${currentBuild.fullDisplayName} result."
+                    slackSend channel: '#test', color: 'red', message: "The pipeline ${currentBuild.fullDisplayName} result."
             }
         }
 }
