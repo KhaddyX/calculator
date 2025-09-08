@@ -9,14 +9,17 @@ pipeline {
         stage('Compile') {
             steps {
                 sh "chmod +x gradlew"
-                sh "./gradlew compileJava"
             }
         }
-        stage('Unit Test') {
-             steps {
-                 sh "./gradlew test"
-             }
+        stage('Build Jar') {
+            steps {
+                sh './gradlew build'
+            }
         }
+                stage('Unit Test') {
+                     steps {
+                         sh "./gradlew test"
+                     }
         stage("Code Coverage") {
               steps {
                   sh "./gradlew jacocoTestReport"
