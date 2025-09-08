@@ -47,9 +47,15 @@ pipeline {
 
             stage('Build Jar') {
                 steps {
+                    sh './gradlew clean'
                     sh './gradlew build'
                 }
             }
+            stage('docker build') {
+                steps {
+                                sh "docker build -t calculator."
+                            }
+                        }
      }
     post {
             always {
