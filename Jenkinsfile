@@ -44,12 +44,13 @@ pipeline {
                                           ])
                        }
                 }
-    }
+
             stage('Build Jar') {
                 steps {
                     sh './gradlew build'
                 }
             }
+     }
     post {
             always {
                 mail to: 'silverkhaddy@gmail.com',
