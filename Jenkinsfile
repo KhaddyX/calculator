@@ -11,15 +11,12 @@ pipeline {
                 sh "chmod +x gradlew"
             }
         }
-        stage('Build Jar') {
-            steps {
-                sh './gradlew build'
-            }
+
+        stage('Unit Test') {
+             steps {
+                 sh "./gradlew test"
+             }
         }
-                stage('Unit Test') {
-                     steps {
-                         sh "./gradlew test"
-                     }
         stage("Code Coverage") {
               steps {
                   sh "./gradlew jacocoTestReport"
@@ -48,6 +45,11 @@ pipeline {
                        }
                 }
     }
+            stage('Build Jar') {
+                steps {
+                    sh './gradlew build'
+                }
+            }
     post {
             always {
                 mail to: 'silverkhaddy@gmail.com',
