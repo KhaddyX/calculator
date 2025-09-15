@@ -1,7 +1,7 @@
 pipeline {
     agent{
     label "Pipeline"
-    }
+          }
     stages {
         stage('Checkout') {
             steps {
@@ -49,7 +49,7 @@ pipeline {
                                               reportDir: 'build/reports/checkstyle',
                                               reportFiles: 'main.html',
                                               reportName: 'Checkstyle Report'
-                                          ])
+                          ])
                        }
                 }
 
@@ -57,35 +57,22 @@ pipeline {
                 steps {
 //                     sh './gradlew clean'
 //                     sh './gradlew build'
-                    bat './gradlew clean'
-                    bat './gradlew build'
+                    bat "./gradlew clean"
+                    bat "./gradlew build"
                 }
             }
             stage('docker build') {
                 steps {
-//                         sh "docker build -t calculator1."
+//                      sh "docker build -t calculator1."
                         bat "docker build -t khaddy08/calculator1."
-                            }
-                        }
+               }
+            }
             stage('docker push') {
                 steps {
 //                         sh "docker push calculator1."
-                        bat "docker push calculator1."
-                            }
-                        }
-//             stage("Docker login") {
-//                  steps {
-//                      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Dockerhub',
-//                      usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-//                        sh "docker login --username $USERNAME --password $PASSWORD"
-//                       bat "docker login --username $USERNAME --password $PASSWORD"
-//                    }
-//                  }
-//            }
-//                     steps{
-//                        bat "docker login --username $USERNAME --password $PASSWORD"
-//                     }
-//      }
+                           bat "docker push calculator1."
+              }
+            }
     post {
             always {
                 mail to: 'silverkhaddy@gmail.com',
@@ -93,5 +80,5 @@ pipeline {
                     body: "Your build completed, please check: ${env.BUILD_URL}"
                     slackSend channel: '#test', color: 'red', message: "The pipeline ${currentBuild.fullDisplayName} result."
             }
-        }
+    }
 }
