@@ -13,4 +13,4 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Switch to normal user
-USER jenkins,
+USER jenkins

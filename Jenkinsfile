@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent{
+    label "Pipeline"
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -8,19 +10,22 @@ pipeline {
         }
         stage('Compile') {
             steps {
-                sh "chmod +x gradlew"
-                sh "docker version"
+//                 sh "chmod +x gradlew"
+//                 sh "docker version"
+                bat "docker version"
             }
         }
 
         stage('Unit Test') {
              steps {
-                 sh "./gradlew test"
+//                  sh "./gradlew test"
+                 bat "./gradlew test"
              }
         }
         stage("Code Coverage") {
               steps {
-                  sh "./gradlew jacocoTestReport"
+//                   sh "./gradlew jacocoTestReport"
+                  bat "./gradlew jacocoTestReport"
                   publishHTML(target: [
                                       allowMissing: false,
                                       alwaysLinkToLastBuild: false,
@@ -29,12 +34,14 @@ pipeline {
                                       reportFiles: 'index.html',
                                       reportName: 'JaCoCo Report'
                                   ])
-                  sh "./gradlew jacocoTestCoverageVerification"
+//                   sh "./gradlew jacocoTestCoverageVerification"
+                  bat "./gradlew jacocoTestCoverageVerification"
               }
         }
         stage("Static code analysis") {
                        steps {
-                           sh "./gradlew checkstyleMain"
+//                            sh "./gradlew checkstyleMain"
+                           bat "./gradlew checkstyleMain"
                            publishHTML(target: [
                                               allowMissing: false,
                                               alwaysLinkToLastBuild: false,
@@ -48,24 +55,37 @@ pipeline {
 
             stage('Build Jar') {
                 steps {
-                    sh './gradlew clean'
-                    sh './gradlew build'
+//                     sh './gradlew clean'
+//                     sh './gradlew build'
+                    bat './gradlew clean'
+                    bat './gradlew build'
                 }
             }
             stage('docker build') {
                 steps {
-                        sh "docker push calculator1."
+//                         sh "docker build -t calculator1."
+                        bat "docker build -t khaddy08/calculator1."
                             }
                         }
-            stage("Docker login") {
-                  steps {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub',
-                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                      sh "docker login --username $USERNAME --password $PASSWORD"
-                    }
-                  }
-            }
-     }
+            stage('docker push') {
+                steps {
+//                         sh "docker push calculator1."
+                        bat "docker push calculator1."
+                            }
+                        }
+//             stage("Docker login") {
+//                  steps {
+//                      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Dockerhub',
+//                      usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+//                        sh "docker login --username $USERNAME --password $PASSWORD"
+//                       bat "docker login --username $USERNAME --password $PASSWORD"
+//                    }
+//                  }
+//            }
+//                     steps{
+//                        bat "docker login --username $USERNAME --password $PASSWORD"
+//                     }
+//      }
     post {
             always {
                 mail to: 'silverkhaddy@gmail.com',
