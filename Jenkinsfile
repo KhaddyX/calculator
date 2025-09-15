@@ -1,7 +1,6 @@
 pipeline {
-    agent{
-    label "Pipeline"
-          }
+       agent { label 'Pipeline' }
+
     stages {
         stage('Checkout') {
             steps {
@@ -70,7 +69,8 @@ pipeline {
             stage('docker push') {
                 steps {
 //                         sh "docker push calculator1."
-                           bat "docker push calculator1."
+                           bat "docker push khaddy08/calculator1."
+                 }
               }
             }
     post {
@@ -81,5 +81,4 @@ pipeline {
                     slackSend channel: '#test', color: 'red', message: "The pipeline ${currentBuild.fullDisplayName} result."
             }
     }
-}
 }
