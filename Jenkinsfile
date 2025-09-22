@@ -7,14 +7,12 @@ pipeline {
                 git url: 'https://github.com/KhaddyX/calculator.git', branch: 'main'
             }
         }
-        stage('Compile') {
+        stage('Clean') {
             steps {
-//                 sh "chmod +x gradlew"
-//                 sh "docker version"
-                bat "docker version"
+//                  sh './gradlew clean'
+                bat "./gradlew clean"
             }
         }
-
         stage('Unit Test') {
              steps {
 //                  sh "./gradlew test"
@@ -26,37 +24,34 @@ pipeline {
 //                   sh "./gradlew jacocoTestReport"
                   bat "./gradlew jacocoTestReport"
                   publishHTML(target: [
-                                      allowMissing: false,
-                                      alwaysLinkToLastBuild: false,
-                                      keepAll: true,
-                                      reportDir: 'build/reports/jacoco/test/html',
-                                      reportFiles: 'index.html',
-                                      reportName: 'JaCoCo Report'
+                                        allowMissing: false,
+                                        alwaysLinkToLastBuild: false,
+                                        keepAll: true,
+                                        reportDir: 'build/reports/jacoco/test/html',
+                                        reportFiles: 'index.html',
+                                        reportName: 'JaCoCo Report'
                                   ])
 //                   sh "./gradlew jacocoTestCoverageVerification"
                   bat "./gradlew jacocoTestCoverageVerification"
               }
         }
         stage("Static code analysis") {
-                       steps {
+                steps {
 //                            sh "./gradlew checkstyleMain"
-                           bat "./gradlew checkstyleMain"
-                           publishHTML(target: [
-                                              allowMissing: false,
-                                              alwaysLinkToLastBuild: false,
-                                              keepAll: true,
-                                              reportDir: 'build/reports/checkstyle',
-                                              reportFiles: 'main.html',
-                                              reportName: 'Checkstyle Report'
-                          ])
-                       }
+                    bat "./gradlew checkstyleMain"
+                    publishHTML(target: [
+                                        allowMissing: false,
+                                        alwaysLinkToLastBuild: false,
+                                        keepAll: true,
+                                        reportDir: 'build/reports/checkstyle',
+                                        reportFiles: 'main.html',
+                                        reportName: 'Checkstyle Report'
+                    ])
                 }
-
+        }
             stage('Build Jar') {
                 steps {
-//                     sh './gradlew clean'
 //                     sh './gradlew build'
-                    bat "./gradlew clean"
                     bat "./gradlew build"
                 }
             }
@@ -69,7 +64,7 @@ pipeline {
             stage('docker push') {
                 steps {
 //                         sh "docker push calculator1."
-                           bat "docker push khaddy08/calculator1 ."
+                           bat "docker push khaddy08/calculator1"
                  }
               }
             }
