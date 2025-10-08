@@ -72,13 +72,17 @@ pipeline {
                            bat "docker push khaddy08/calculator1 ."
                  }
               }
-                          stage('Acceptance test push') {
+                          stage('docker run') {
                               steps {
-              //                         sh "docker push calculator1."
-                                         bat "/gradlew acceptanceTest ."
+                                         bat "docker run khaddy08/calculator1 ."
                                }
                             }
+             stage('Acceptance test push') {
+                              steps {
+                                         bat "/gradlew acceptanceTest ."
+                                     }
             }
+        }
     post {
             always {
                 mail to: 'silverkhaddy@gmail.com',
