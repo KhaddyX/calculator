@@ -69,18 +69,18 @@ pipeline {
             stage('docker push') {
                 steps {
 //                         sh "docker push calculator1."
-                           bat "docker push khaddy08/calculator1 ."
+                           bat "docker push khaddy08/calculator1"
                  }
               }
                           stage('docker run') {
                               steps {
-                                         bat "docker run khaddy08/calculator1 ."
+                                         bat "docker run khaddy08/calculator1"
                                }
                             }
              stage('Acceptance test push') {
-                              steps {
-                                         bat "/gradlew acceptanceTest ."
-                                     }
+                        steps {
+                                 bat "/gradlew acceptanceTest"
+                         }
             }
         }
     post {
