@@ -74,7 +74,7 @@ pipeline {
               }
                           stage('docker run') {
                               steps {
-                                         bat "docker run khaddy08/calculator1"
+                                         bat "docker run docker run -d -p 9090:9090 --name calculator1 khaddy08/calculator1"
                                }
                             }
              stage('Acceptance test push') {
@@ -89,6 +89,7 @@ pipeline {
                     subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
                     body: "Your build completed, please check: ${env.BUILD_URL}"
                     slackSend channel: '#test', color: 'red', message: "The pipeline ${currentBuild.fullDisplayName} result."
+                   bat "docker rm calculator"
             }
     }
 }
