@@ -15,9 +15,7 @@ public class CalculatorController {
 	this.calculatorService = calculatorService;
 }
 	@GetMapping("sum")
-	int badd(@RequestParam("a") int a, @RequestParam("b") int b) {
+	int ab(@RequestParam("a") int a, @RequestParam("b") int b) {
 	return calculatorService.sum(a, b);
 }
-
-
 }

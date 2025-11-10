@@ -82,6 +82,13 @@ pipeline {
                 bat "/gradlew acceptanceTest"
                }
             }
+            stage('Deploy') {
+                            steps {
+                            bat "wsl -d ubuntu ansible-playbook -i /home/khaddy/ansible/hosts calculator.yml"
+                           }
+                        }
+
+
         }
     post {
             always {
