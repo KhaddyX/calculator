@@ -78,24 +78,24 @@ pipeline {
                                }
                             }
              stage('Acceptance test push') {
-                        steps {
+                    steps {
                                  bat "/gradlew acceptanceTest"
-                         }
+                            }
             }
 
             stage('Deploy') {
-                                    steps {
-                                             bat "wsl -d ubuntu ansible-playbook -i /home/khaddy/ansible/hosts calculator.yml"
-                                     }
-                        }
+                    steps {
+                         bat "wsl -d ubuntu ansible-playbook -i /home/khaddy/ansible/hosts calculator.yml"
+                     }
+            }
 
         }
-    post {
-            always {
-                mail to: 'silverkhaddy@gmail.com',
-                    subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
-                    body: "Your build completed, please check: ${env.BUILD_URL}"
-                    slackSend channel: '#test', color: 'red', message: "The pipeline ${currentBuild.fullDisplayName} result."
-            }
-    }
+//     post {
+//             always {
+//                 mail to: 'silverkhaddy@gmail.com',
+//                     subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
+//                     body: "Your build completed, please check: ${env.BUILD_URL}"
+//                     slackSend channel: '#test', color: 'red', message: "The pipeline ${currentBuild.fullDisplayName} result."
+//             }
+//     }
 }
